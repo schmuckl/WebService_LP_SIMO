@@ -2,167 +2,90 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * LigneCommande
- * @ORM\Table(name="lignecommande")
+ * Commande
+ *
+ * @ORM\Table(name="commande", indexes={@ORM\Index(name="IDX_6EEAA67D19EB6921", columns={"client_id"})})
  * @ORM\Entity
  */
-class LigneCommande
-{   
+class LignesCommande
+{
     /**
      * @var int
      *
-     * @ORM\Id
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\GeneratedValue
-     */
-    private $id;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="article_id", type="integer", nullable=false)
-     * @ORM\GeneratedValue
-     */
-    private $article_id;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="commande_id", type="integer", nullable=false)
-     * @ORM\GeneratedValue
-     */
-    private $commande_id;
-
-    /**
-     * @var integer
-     * 
      * @ORM\Column(name="quantite", type="integer", nullable=false)
      */
     private $quantite;
 
     /**
-     * @var string
-     * 
+     * @var decimal
+     *
      * @ORM\Column(name="prix", type="decimal", scale=2, nullable=false)
      */
     private $prix;
 
     /**
-     * @var App\Entity\Article
-     * 
-     * @ORM\ManyToOne(targetEntity="Article", inversedBy="lignecommandes")
-     * @ORM\JoinColumn(name="article_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Article", inversedBy="lignesCommande", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $article;
 
     /**
-     * @var App\Entity\Commande
-     * 
-     * @ORM\ManyToOne(targetEntity="Commande", inversedBy="lignecommandes")
-     * @ORM\JoinColumn(name="commande_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Commande", inversedBy="lignesCommande", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $commande;
 
+    public function getQuantite(): ?int
+    {
+        return $this->quantite;
+    }
 
-    /**
-     * Set quantite
-     *
-     * @param integer $quantite
-     *
-     * @return LigneCommande
-     */
-    public function setQuantite($quantite)
+    public function setQuantite(int $quantite): self
     {
         $this->quantite = $quantite;
 
         return $this;
     }
 
-    /**
-     * Get quantite
-     *
-     * @return integer
-     */
-    public function getQuantite()
+    public function getPrix()
     {
-        return $this->quantite;
+        return $this->prix;
     }
 
-    /**
-     * Set prix
-     *
-     * @param string $prix
-     *
-     * @return LigneCommande
-     */
-    public function setPrix($prix)
+    public function setPrix($prix): self
     {
         $this->prix = $prix;
 
         return $this;
     }
 
-    /**
-     * Get prix
-     *
-     * @return string
-     */
-    public function getPrix()
+    public function getArticle(): ?Article
     {
-        return $this->prix;
+        return $this->article;
     }
 
-    /**
-     * Set article
-     *
-     * @param App\Entity\Article $article
-     *
-     * @return LigneCommande
-     */
-    public function setArticle(App\Entity\Article $article)
+    public function setArticle(?Article $article): self
     {
         $this->article = $article;
 
         return $this;
     }
 
-    /**
-     * Get article
-     *
-     * @return App\Entity\Article
-     */
-    public function getArticle()
+    public function getCommande(): ?Commande
     {
-        return $this->article;
+        return $this->commande;
     }
 
-    /**
-     * Set commande
-     *
-     * @param App\Entity\Commande $commande
-     *
-     * @return LigneCommande
-     */
-    public function setCommande(App\Entity\Commande $commande)
+    public function setCommande(?Commande $commande): self
     {
         $this->commande = $commande;
 
         return $this;
     }
 
-    /**
-     * Get commande
-     *
-     * @return App\Entity\Commande
-     */
-    public function getCommande()
-    {
-        return $this->commande;
-    }
-    public function __toString() {
-        return $this->getId().toString();
-    }
 }

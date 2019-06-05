@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,9 +26,9 @@ class Article
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=100, nullable=false)
+     * @ORM\Column(name="libelle", type="string", length=100, nullable=false)
      */
-    private $nom;
+    private $libelle;
 
     /**
      * @var string
@@ -36,18 +38,18 @@ class Article
     private $prix;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text", length=0, nullable=false)
-     */
-    private $description;
-
-    /**
      * @var int
      *
      * @ORM\Column(name="stock", type="integer", nullable=false)
      */
     private $stock;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="image", type="string", length=255, nullable=false)
+     */
+    private $image;
 
     /**
      * @var \Categorie
@@ -59,11 +61,11 @@ class Article
      */
     private $categorie;
 
-    /**
+    /*
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Commande", inversedBy="article")
-     * @ORM\JoinTable(name="lignecommande",
+     * @ORM\JoinTable(name="lignescommande",
      *   joinColumns={
      *     @ORM\JoinColumn(name="article_id", referencedColumnName="id")
      *   },
@@ -72,164 +74,80 @@ class Article
      *   }
      * )
      */
-    private $commande;
+    //private $commande;
+
+    /**
+     * One product has many features. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="LignesCommande", mappedBy="Article")
+     */
+    private $lignesCommande;
 
     /**
      * Constructor
      */
-    public function __construct()
-    {
-        $this->commande = new \Doctrine\Common\Collections\ArrayCollection();
+    public function __construct() {
+        $this->lignesCommande = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-      /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set nom
-     *
-     * @param string $nom
-     *
-     * @return Article
-     */
-    public function setNom($nom)
+    public function getLibelle(): ?string
     {
-        $this->nom = $nom;
+        return $this->libelle;
+    }
+
+    public function setLibelle(string $libelle): self
+    {
+        $this->libelle = $libelle;
 
         return $this;
     }
 
-    /**
-     * Get nom
-     *
-     * @return string
-     */
-    public function getNom()
+    public function getPrix()
     {
-        return $this->nom;
+        return $this->prix;
     }
 
-    /**
-     * Set prix
-     *
-     * @param string $prix
-     *
-     * @return Article
-     */
-    public function setPrix($prix)
+    public function setPrix($prix): self
     {
         $this->prix = $prix;
 
         return $this;
     }
 
-    /**
-     * Get prix
-     *
-     * @return string
-     */
-    public function getPrix()
+    public function getStock(): ?int
     {
-        return $this->prix;
+        return $this->stock;
     }
 
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return Article
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set stock
-     *
-     * @param integer $stock
-     *
-     * @return Article
-     */
-    public function setStock($stock)
+    public function setStock(int $stock): self
     {
         $this->stock = $stock;
 
         return $this;
     }
 
-    /**
-     * Get stock
-     *
-     * @return integer
-     */
-    public function getStock()
+    public function getImage(): ?string
     {
-        return $this->stock;
+        return $this->image;
     }
 
-    /**
-     * Add lignecommande
-     *
-     * @param App\Entity\LigneCommande $lignecommande
-     *
-     * @return Article
-     */
-    public function addLignecommande(App\Entity\LigneCommande $lignecommande)
+    public function setImage(string $image): self
     {
-        $this->lignecommandes[] = $lignecommande;
+        $this->image = $image;
 
         return $this;
     }
 
-    /**
-     * Remove lignecommande
-     *
-     * @param App\Entity\LigneCommande $lignecommande
-     */
-    public function removeLignecommande(App\Entity\LigneCommande $lignecommande)
+    public function getCategorie(): ?Categorie
     {
-        $this->lignecommandes->removeElement($lignecommande);
+        return $this->categorie;
     }
 
-    /**
-     * Get lignecommandes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getLignecommandes()
-    {
-        return $this->lignecommandes;
-    }
-
-    /**
-     * Set categorie
-     *
-     * @param App\Entity\Categorie $categorie
-     *
-     * @return Article
-     */
-    public function setCategorie(App\Entity\Categorie $categorie = null)
+    public function setCategorie(?Categorie $categorie): self
     {
         $this->categorie = $categorie;
 
@@ -237,16 +155,60 @@ class Article
     }
 
     /**
-     * Get categorie
-     *
-     * @return App\Entity\Categorie
+     * @return Collection|Commande[]
      */
-    public function getCategorie()
+    public function getCommande(): Collection
     {
-        return $this->categorie;
+        return $this->commande;
     }
-    public function __toString() {
-        return $this->getNom();
+
+    public function addCommande(Commande $commande): self
+    {
+        if (!$this->commande->contains($commande)) {
+            $this->commande[] = $commande;
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): self
+    {
+        if ($this->commande->contains($commande)) {
+            $this->commande->removeElement($commande);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|LignesCommande[]
+     */
+    public function getLignesCommande(): Collection
+    {
+        return $this->lignesCommande;
+    }
+
+    public function addLignesCommande(LignesCommande $lignesCommande): self
+    {
+        if (!$this->lignesCommande->contains($lignesCommande)) {
+            $this->lignesCommande[] = $lignesCommande;
+            $lignesCommande->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLignesCommande(LignesCommande $lignesCommande): self
+    {
+        if ($this->lignesCommande->contains($lignesCommande)) {
+            $this->lignesCommande->removeElement($lignesCommande);
+            // set the owning side to null (unless already changed)
+            if ($lignesCommande->getArticle() === $this) {
+                $lignesCommande->setArticle(null);
+            }
+        }
+
+        return $this;
     }
 
 }

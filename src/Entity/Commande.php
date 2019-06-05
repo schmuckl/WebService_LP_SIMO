@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,9 +26,9 @@ class Commande
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date", type="date", nullable=false)
+     * @ORM\Column(name="date_creation", type="datetime", nullable=false)
      */
-    private $date;
+    private $dateCreation;
 
     /**
      * @var bool
@@ -45,89 +47,125 @@ class Commande
      */
     private $client;
 
-    /**
+    /*
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="Article", mappedBy="commande")
      */
-    private $article;
+    //private $article;
+
+    /**
+     * One product has many features. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="LignesCommande", mappedBy="Commande")
+     */
+    private $lignesCommande;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->article = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->lignesCommande = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-     /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * Set nom
-     *
-     * @param string $nom
-     *
-     * @return Categorie
-     */
-    public function setNom($nom)
+    public function getDateCreation(): ?\DateTimeInterface
     {
-        $this->nom = $nom;
+        return $this->dateCreation;
+    }
+
+    public function setDateCreation(\DateTimeInterface $dateCreation): self
+    {
+        $this->dateCreation = $dateCreation;
+
+        return $this;
+    }
+
+    public function getEtat(): ?bool
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(bool $etat): self
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): self
+    {
+        $this->client = $client;
 
         return $this;
     }
 
     /**
-     * Get nom
-     *
-     * @return string
+     * @return Collection|Article[]
      */
-    public function getNom()
+    public function getArticle(): Collection
     {
-        return $this->nom;
+        return $this->article;
     }
 
-    /**
-     * Add article
-     *
-     * @param \mi03\VitrineBundle\Entity\Article $article
-     *
-     * @return Categorie
-     */
-    public function addArticle(\mi03\VitrineBundle\Entity\Article $article)
+    public function addArticle(Article $article): self
     {
-        $this->articles[] = $article;
+        if (!$this->article->contains($article)) {
+            $this->article[] = $article;
+            $article->addCommande($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): self
+    {
+        if ($this->article->contains($article)) {
+            $this->article->removeElement($article);
+            $article->removeCommande($this);
+        }
 
         return $this;
     }
 
     /**
-     * Remove article
-     *
-     * @param \mi03\VitrineBundle\Entity\Article $article
+     * @return Collection|LignesCommande[]
      */
-    public function removeArticle(\mi03\VitrineBundle\Entity\Article $article)
+    public function getLignesCommande(): Collection
     {
-        $this->articles->removeElement($article);
+        return $this->lignesCommande;
     }
 
-    /**
-     * Get articles
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getArticles()
+    public function addLignesCommande(LignesCommande $lignesCommande): self
     {
-        return $this->articles;
+        if (!$this->lignesCommande->contains($lignesCommande)) {
+            $this->lignesCommande[] = $lignesCommande;
+            $lignesCommande->setCommande($this);
+        }
+
+        return $this;
     }
-    public function __toString() {
-        return $this->getNom();
+
+    public function removeLignesCommande(LignesCommande $lignesCommande): self
+    {
+        if ($this->lignesCommande->contains($lignesCommande)) {
+            $this->lignesCommande->removeElement($lignesCommande);
+            // set the owning side to null (unless already changed)
+            if ($lignesCommande->getCommande() === $this) {
+                $lignesCommande->setCommande(null);
+            }
+        }
+
+        return $this;
     }
+
 }
