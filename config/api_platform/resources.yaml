@@ -1,0 +1,6 @@
+resources:
+    App\Entity\Article: ~
+    App\Entity\Categorie: ~
+    App\Entity\Client: ~
+    App\Entity\Commande: ~
+    App\Entity\LigneCommande: ~
