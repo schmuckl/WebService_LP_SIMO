@@ -59,5 +59,5 @@ class Categorie
     {
         $this->nom = $nom;
     }
-    
+
 }
