@@ -28,5 +28,15 @@ class Categorie
      */
     private $nom;
 
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
 
 }
