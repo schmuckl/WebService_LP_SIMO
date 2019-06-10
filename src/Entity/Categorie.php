@@ -32,13 +32,16 @@ class Categorie
      */
     private $nom;
 
+
     /**
      * @return int
      */
     public function getId(): int
+
     {
         return $this->id;
     }
+
 
     /**
      * @param int $id
@@ -52,9 +55,11 @@ class Categorie
      * @return string
      */
     public function getNom(): string
+
     {
         return $this->nom;
     }
+
 
     /**
      * @param string $nom
