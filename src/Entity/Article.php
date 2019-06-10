@@ -4,12 +4,17 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Article
  *
  * @ORM\Table(name="article", indexes={@ORM\Index(name="IDX_23A0E66BCF5E72D", columns={"categorie_id"})})
+ * @ApiFilter(NumericFilter::class, properties={"id"})
+ * @ApiResource
  * @ORM\Entity
  */
 class Article
@@ -74,13 +79,13 @@ class Article
      *   }
      * )
      */
-    //private $commande;
-
-    /**
-     * One product has many features. This is the inverse side.
-     * @ORM\OneToMany(targetEntity="LignesCommande", mappedBy="Article")
-     */
-    private $lignesCommande;
+//    private $commande;
+//
+//    /**
+//     * One product has many features. This is the inverse side.
+//     * @ORM\OneToMany(targetEntity="LignesCommande", mappedBy="Article")
+//     */
+//    private $lignesCommande;
 
     /**
      * Constructor
@@ -153,62 +158,62 @@ class Article
 
         return $this;
     }
-
-    /**
-     * @return Collection|Commande[]
-     */
-    public function getCommande(): Collection
-    {
-        return $this->commande;
-    }
-
-    public function addCommande(Commande $commande): self
-    {
-        if (!$this->commande->contains($commande)) {
-            $this->commande[] = $commande;
-        }
-
-        return $this;
-    }
-
-    public function removeCommande(Commande $commande): self
-    {
-        if ($this->commande->contains($commande)) {
-            $this->commande->removeElement($commande);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|LignesCommande[]
-     */
-    public function getLignesCommande(): Collection
-    {
-        return $this->lignesCommande;
-    }
-
-    public function addLignesCommande(LignesCommande $lignesCommande): self
-    {
-        if (!$this->lignesCommande->contains($lignesCommande)) {
-            $this->lignesCommande[] = $lignesCommande;
-            $lignesCommande->setArticle($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLignesCommande(LignesCommande $lignesCommande): self
-    {
-        if ($this->lignesCommande->contains($lignesCommande)) {
-            $this->lignesCommande->removeElement($lignesCommande);
-            // set the owning side to null (unless already changed)
-            if ($lignesCommande->getArticle() === $this) {
-                $lignesCommande->setArticle(null);
-            }
-        }
-
-        return $this;
-    }
+//
+//    /**
+//     * @return Collection|Commande[]
+//     */
+//    public function getCommande(): Collection
+//    {
+//        return $this->commande;
+//    }
+//
+//    public function addCommande(Commande $commande): self
+//    {
+//        if (!$this->commande->contains($commande)) {
+//            $this->commande[] = $commande;
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeCommande(Commande $commande): self
+//    {
+//        if ($this->commande->contains($commande)) {
+//            $this->commande->removeElement($commande);
+//        }
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * @return Collection|LignesCommande[]
+//     */
+//    public function getLignesCommande(): Collection
+//    {
+//        return $this->lignesCommande;
+//    }
+//
+//    public function addLignesCommande(LignesCommande $lignesCommande): self
+//    {
+//        if (!$this->lignesCommande->contains($lignesCommande)) {
+//            $this->lignesCommande[] = $lignesCommande;
+//            $lignesCommande->setArticle($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeLignesCommande(LignesCommande $lignesCommande): self
+//    {
+//        if ($this->lignesCommande->contains($lignesCommande)) {
+//            $this->lignesCommande->removeElement($lignesCommande);
+//            // set the owning side to null (unless already changed)
+//            if ($lignesCommande->getArticle() === $this) {
+//                $lignesCommande->setArticle(null);
+//            }
+//        }
+//
+//        return $this;
+//    }
 
 }
