@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\PersistentCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiFilter;
@@ -53,24 +54,24 @@ class Commande
     private $client;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \Article
      * @ORM\ManyToOne(targetEntity="Article", inversedBy="commande")
      */
     private $article;
 
-    /**
-     * One product has many features. This is the inverse side.
-     * @ORM\OneToMany(targetEntity="LignesCommande", mappedBy="Commande")
-     */
-    private $lignesCommande;
+//    /**
+//     * One product has many features. This is the inverse side.
+//     * @ORM\OneToMany(targetEntity="LignesCommande", mappedBy="commande")
+//     */
+//    private $lignesCommande;
 
     /**
      * Constructor
      */
-    public function __construct()
-    {
-        $this->lignesCommande = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+//    public function __construct()
+//    {
+//        $this->lignesCommande = new LignesCommande();
+//    }
 
     public function getId(): ?int
     {
@@ -113,10 +114,10 @@ class Commande
         return $this;
     }
 
-    /**
-     * @return Collection|Article[]
+    /*
+     *
      */
-    public function getArticle(): Collection
+    public function getArticle(): ?Article
     {
         return $this->article;
     }
@@ -141,35 +142,32 @@ class Commande
         return $this;
     }
 
-    /**
-     * @return Collection|LignesCommande[]
-     */
-    public function getLignesCommande(): Collection
-    {
-        return $this->lignesCommande;
-    }
-
-    public function addLignesCommande(LignesCommande $lignesCommande): self
-    {
-        if (!$this->lignesCommande->contains($lignesCommande)) {
-            $this->lignesCommande[] = $lignesCommande;
-            $lignesCommande->setCommande($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLignesCommande(LignesCommande $lignesCommande): self
-    {
-        if ($this->lignesCommande->contains($lignesCommande)) {
-            $this->lignesCommande->removeElement($lignesCommande);
-            // set the owning side to null (unless already changed)
-            if ($lignesCommande->getCommande() === $this) {
-                $lignesCommande->setCommande(null);
-            }
-        }
-
-        return $this;
-    }
+//    public function getLignesCommande(): ?LignesCommande
+//    {
+//        return $this->lignesCommande;
+//    }
+//
+//    public function addLignesCommande(LignesCommande $lignesCommande): self
+//    {
+//        if (!$this->lignesCommande->contains($lignesCommande)) {
+//            $this->lignesCommande[] = $lignesCommande;
+//            $lignesCommande->setCommande($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeLignesCommande(LignesCommande $lignesCommande): self
+//    {
+//        if ($this->lignesCommande->contains($lignesCommande)) {
+//            $this->lignesCommande->removeElement($lignesCommande);
+//            // set the owning side to null (unless already changed)
+//            if ($lignesCommande->getCommande() === $this) {
+//                $lignesCommande->setCommande(null);
+//            }
+//        }
+//
+//        return $this;
+//    }
 
 }

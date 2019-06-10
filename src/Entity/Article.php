@@ -67,23 +67,23 @@ class Article
     private $categorie;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \Commande
      * @ORM\OneToMany(targetEntity="Commande", mappedBy="article")
      */
     private $commande;
 
-    /**
-     * One product has many features. This is the inverse side.
-     * @ORM\OneToMany(targetEntity="LignesCommande", mappedBy="Article")
-     */
-    private $lignesCommande;
+//    /**
+//     * One product has many features. This is the inverse side.
+//     * @ORM\OneToMany(targetEntity="LignesCommande", mappedBy="Article")
+//     */
+//    private $lignesCommande;
 
     /**
      * Constructor
      */
-    public function __construct() {
-        $this->lignesCommande = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+//    public function __construct() {
+//        $this->lignesCommande = new LignesCommande();
+//    }
 
     public function getId(): ?int
     {
@@ -150,17 +150,17 @@ class Article
         return $this;
     }
 
-    public function getCommande(): ?Commande
-    {
-        return $this->commande;
-    }
-
-    public function setCommande(?Commande $commande): self
-    {
-        $this->commande = $commande;
-
-        return $this;
-    }
+//    public function getCommande(): ?Commande
+//    {
+//        return $this->commande;
+//    }
+//
+//    public function setCommande(?Commande $commande): self
+//    {
+//        $this->commande = $commande;
+//
+//        return $this;
+//    }
 //
 //    /**
 //     * @return Collection|Commande[]
