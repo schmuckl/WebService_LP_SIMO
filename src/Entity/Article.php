@@ -66,26 +66,17 @@ class Article
      */
     private $categorie;
 
-    /*
+    /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Commande", inversedBy="article")
-     * @ORM\JoinTable(name="lignescommande",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="article_id", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="commande_id", referencedColumnName="id")
-     *   }
-     * )
+     * @ORM\OneToMany(targetEntity="Commande", mappedBy="article")
      */
-//    private $commande;
-//
-//    /**
-//     * One product has many features. This is the inverse side.
-//     * @ORM\OneToMany(targetEntity="LignesCommande", mappedBy="Article")
-//     */
-//    private $lignesCommande;
+    private $commande;
+
+    /**
+     * One product has many features. This is the inverse side.
+     * @ORM\OneToMany(targetEntity="LignesCommande", mappedBy="Article")
+     */
+    private $lignesCommande;
 
     /**
      * Constructor
@@ -155,6 +146,18 @@ class Article
     public function setCategorie(?Categorie $categorie): self
     {
         $this->categorie = $categorie;
+
+        return $this;
+    }
+
+    public function getCommande(): ?Commande
+    {
+        return $this->commande;
+    }
+
+    public function setCommande(?Commande $commande): self
+    {
+        $this->commande = $commande;
 
         return $this;
     }

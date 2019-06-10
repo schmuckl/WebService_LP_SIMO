@@ -52,12 +52,11 @@ class Commande
      */
     private $client;
 
-    /*
+    /**
      * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Article", mappedBy="commande")
+     * @ORM\ManyToOne(targetEntity="Article", inversedBy="commande")
      */
-    //private $article;
+    private $article;
 
     /**
      * One product has many features. This is the inverse side.
