@@ -5,11 +5,16 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * Commande
  *
  * @ORM\Table(name="commande", indexes={@ORM\Index(name="IDX_6EEAA67D19EB6921", columns={"client_id"})})
+ * @ApiFilter(BooleanFilter::class, properties={"etat"})
+ * @ApiResource
  * @ORM\Entity
  */
 class Commande

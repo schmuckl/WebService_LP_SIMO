@@ -5,11 +5,16 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\NumericFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * Commande
  *
  * @ORM\Table(name="lignes_commande")
+ * @ApiFilter(NumericFilter::class, properties={"id"})
+ * @ApiResource
  * @ORM\Entity
  */
 class LignesCommande

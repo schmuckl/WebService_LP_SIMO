@@ -3,10 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * Client
- *
+ * @ApiFilter(SearchFilter::class, properties={"nom"})
+ * @ApiResource
  * @ORM\Table(name="client")
  * @ORM\Entity
  */
